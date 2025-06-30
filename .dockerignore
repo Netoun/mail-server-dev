@@ -1,0 +1,23 @@
+# Ignorer les dossiers et fichiers inutiles pour le build Docker
+node_modules
+**/node_modules
+bun.lock
+package-lock.json
+*.log
+*.tgz
+coverage
+*.lcov
+.cache
+.eslintcache
+.idea
+.DS_Store
+**/target/
+*.tsbuildinfo
+.env*
+logs
+out
+dist
+.vscode
+.git
+.gitignore
+README.md 

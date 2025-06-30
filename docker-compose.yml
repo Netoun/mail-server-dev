@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  fastmail:
+    build: .
+    ports:
+      - "1080:1080"
+      - "1025:1025"
