@@ -12,7 +12,6 @@ import './lib/theme.css.ts';
 import { MailDetails } from './features/mails/pages/mails-details';
 import { useEffect } from 'preact/hooks';
 import { useThemeStore } from './lib/theme-store';
-    
 
 const queryClient = new QueryClient();
 

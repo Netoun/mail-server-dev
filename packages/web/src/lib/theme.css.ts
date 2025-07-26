@@ -1,6 +1,6 @@
 import { createTheme } from "@vanilla-extract/css";
 import { globalStyle } from "@vanilla-extract/css";
-import '@fontsource-variable/geist';
+import '@fontsource-variable/exo-2';
 
 export const [themeClass, vars] = createTheme({
     color: {
@@ -39,7 +39,7 @@ export const [themeClass, vars] = createTheme({
 });
 
 globalStyle('body', {
-    fontFamily: "'Geist Variable', sans-serif",
+    fontFamily: "'Exo 2 Variable', sans-serif",
     backgroundColor: 'var(--background)',
     color: 'var(--foreground)',
 });

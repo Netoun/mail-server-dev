@@ -1,13 +1,4 @@
-[package]
-name = "mail-server-dev"
-version = "0.1.0"
-edition = "2024"
-
 [workspace]
 members = [
     "packages/server"
 ]
-
-[[bin]]
-name = "server"
-path = "src/serveur.rs"

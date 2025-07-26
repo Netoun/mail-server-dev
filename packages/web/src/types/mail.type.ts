@@ -1,3 +1,13 @@
+export type Attachment = {
+    id: number;
+    mail_id: number;
+    filename: string;
+    content_type: string;
+    content_disposition: string | null;
+    size_bytes: number;
+    file_url: string;
+}
+
 export type Mail = {
     id: number;
     from_address: string;
@@ -9,6 +19,7 @@ export type Mail = {
     text: string;
     date: string;
     is_read: boolean;
+    attachments: Attachment[];
 }
 
 export type MailList = Mail[];

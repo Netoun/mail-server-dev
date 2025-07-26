@@ -17,6 +17,7 @@ import {
 } from "./mails-details.css";
 import dayjs from 'dayjs';
 import { useLocation } from "preact-iso";
+import { Attachments } from "../components/attachments";
 
 type MailDetailsProps = {
     id: string;
@@ -90,6 +91,7 @@ export const MailDetails = ({ id }: MailDetailsProps) => {
             <div class={mailBodyContainer}>
                 <div class={mailBody} dangerouslySetInnerHTML={{ __html: data.html }} />
             </div>
+            <Attachments attachments={data.attachments} />
             <div class={mailFooter}>
                 <span>
                     <strong>Signature :</strong>

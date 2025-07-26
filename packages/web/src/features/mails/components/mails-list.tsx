@@ -40,7 +40,7 @@ export const MailsList = ({ data, isLoading, error }: MailsListProps) => {
     return (
         <ul class={mailsListStyles}>
             {mails?.map((mail) => (
-              <MailItem key={mail.id} mail={mail} onRemove={() => {}} isDeleting={deletingId === String(mail.id)} />
+              <MailItem key={mail.id} mail={mail} />
             ))}
         </ul>
     );
