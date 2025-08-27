@@ -1,23 +1,56 @@
-# Ignorer les dossiers et fichiers inutiles pour le build Docker
-node_modules
-**/node_modules
-bun.lock
-package-lock.json
-*.log
-*.tgz
-coverage
-*.lcov
-.cache
-.eslintcache
-.idea
-.DS_Store
-**/target/
-*.tsbuildinfo
-.env*
-logs
-out
-dist
-.vscode
+# Git
 .git
 .gitignore
-README.md 
+.github
+
+# Documentation
+README.md
+*.md
+
+# Development files
+.vscode
+.idea
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Dependency directories
+node_modules/
+target/
+dist/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Attachments (will be created at runtime)
+attachments/
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Build artifacts
+*.tar.gz
+*.zip 

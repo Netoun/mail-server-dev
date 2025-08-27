@@ -1,8 +1,8 @@
-use std::{borrow::Cow, sync::Arc};
+use std::{borrow::Cow, sync::Arc, fs};
 use mail_parser::{Message, MessageParser, MimeHeaders};
 use rusqlite::Connection;
 use tokio::{io, net::TcpListener, task};
-use axum::{response::IntoResponse, routing::{get, delete}, Json, Router, extract::Path};
+use axum::{response::IntoResponse, routing::{get, delete}, Json, Router, extract::Path, response::Html};
 use serde::Serialize;
 use mailin_embedded::{response::OK, Handler, Response, Server};
 use tower_http::cors::{CorsLayer, Any};
@@ -218,9 +218,9 @@ impl RestServer {
     async fn run(self: Arc<Self>) {
         let cors = CorsLayer::new().allow_origin(Any);
         let api_port = std::env::var("API_PORT").unwrap_or_else(|_| "1080".to_string());
-        let static_path = std::env::var("STATIC_DIR").unwrap_or_else(|_| "../web/public".to_string());
+        let static_path = std::env::var("STATIC_DIR").unwrap_or_else(|_| "/app/public".to_string());
         println!("[Static] Serving static files from: {}", static_path);
-        let static_files = ServeDir::new(&static_path).not_found_service(ServeDir::new(format!("{}/index.html", static_path)));
+        let static_files = ServeDir::new(&static_path);
         let app = Router::new()
             .route("/api/mails", get({
                 let this = Arc::clone(&self);
@@ -249,6 +249,7 @@ impl RestServer {
             }))
             .nest_service("/api/attachments", ServeDir::new("./attachments"))
             .nest_service("/", static_files)
+            .fallback(spa_fallback)
             .layer(cors);
         let bind_addr = format!("0.0.0.0:{}", api_port);
         let listener = TcpListener::bind(&bind_addr).await.unwrap();
@@ -361,6 +362,16 @@ impl RestServer {
     }
 
 
+}
+
+async fn spa_fallback() -> Html<String> {
+    let static_path = std::env::var("STATIC_DIR").unwrap_or_else(|_| "/app/public".to_string());
+    let index_path = format!("{}/index.html", static_path);
+    
+    match fs::read_to_string(&index_path) {
+        Ok(content) => Html(content),
+        Err(_) => Html("<!DOCTYPE html><html><head><title>404 - Not Found</title></head><body><h1>404 - Not Found</h1><p>The requested page could not be found.</p></body></html>".to_string())
+    }
 }
 
 async fn sse_events(sender: broadcast::Sender<StoredMail>) -> Sse<impl Stream<Item = Result<Event, axum::Error>>> {

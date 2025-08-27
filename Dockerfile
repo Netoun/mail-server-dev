@@ -22,5 +22,6 @@ WORKDIR /app
 COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/server /app/server
 COPY --from=web-builder /web/dist /app/public
 ENV STATIC_DIR=/app/public
+ENV API_PORT=1080
 EXPOSE 1080 1025
 CMD ["/app/server"] 
