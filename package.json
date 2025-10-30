@@ -5,7 +5,8 @@
   "version": "0.0.1",
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/node": "^24.0.4"
+    "@types/node": "^24.0.4",
+    "release-it": "^19.0.5"
   },
   "peerDependencies": {
     "typescript": "^5.8.3"
@@ -13,13 +14,10 @@
   "scripts": {
     "dev": "bun run --filter '*' dev",
     "build:server": "bun run --filter 'server' build",
-    "build:web": "bun run --filter 'web' build"
+    "build:web": "bun run --filter 'web' build",
+    "release": "release-it"
   },
   "workspaces": [
     "packages/*"
-  ],
-  "dependencies": {
-    "@types/nodemailer": "^6.4.17",
-    "nodemailer": "^7.0.5"
-  }
+  ]
 }

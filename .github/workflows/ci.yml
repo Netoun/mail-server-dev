@@ -2,91 +2,55 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
-
-env:
-  REGISTRY: docker.io
-  IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/mail-server
+    branches: [main]
 
 jobs:
-  test:
+  build-web:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Bun
+      - name: Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
 
-      - name: Install dependencies (Web)
+      - name: Install web dependencies
         working-directory: packages/web
         run: bun install
 
-      - name: Build Web
+      - name: Build web frontend
         working-directory: packages/web
         run: bun run build
 
-      - name: Set up Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
-          target: x86_64-unknown-linux-musl
-
-      - name: Install Rust dependencies
-        run: |
-          rustup target add x86_64-unknown-linux-musl
-          cargo install cargo-tarpaulin
-
-      - name: Test Rust code
-        working-directory: packages/server
-        run: cargo test
-
-      - name: Build Rust code
-        working-directory: packages/server
-        run: cargo build --release --target x86_64-unknown-linux-musl
-
-  build:
-    needs: test
+  build-server:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    permissions:
-      contents: read
-      packages: write
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Setup Rust
+        uses: ./.github/actions/setup-rust
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build server for musl
+        working-directory: packages/server
+        env:
+          CC_x86_64_unknown_linux_musl: x86_64-linux-musl-gcc
+          CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER: x86_64-linux-musl-gcc
+        run: cargo build --release --target x86_64-unknown-linux-musl
 
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.IMAGE_NAME }}
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=raw,value=latest,enable={{is_default_branch}}
+  test-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      - name: Setup Rust
+        uses: ./.github/actions/setup-rust
+
+      - name: Run server tests
+        working-directory: packages/server
+        run: cargo test

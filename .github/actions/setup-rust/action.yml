@@ -1,0 +1,35 @@
+name: Setup Rust for musl
+description: Setup Rust toolchain and musl build tools
+
+runs:
+  using: composite
+  steps:
+    - name: Install musl build tools
+      shell: bash
+      run: sudo apt-get update && sudo apt-get install -y musl-tools
+
+    - name: Setup Rust toolchain
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: nightly
+        targets: x86_64-unknown-linux-musl
+
+    - name: Cache Cargo dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-
+
+    - name: Configure musl linker
+      shell: bash
+      run: |
+        mkdir -p ~/.cargo
+        echo '[target.x86_64-unknown-linux-musl]' >> ~/.cargo/config.toml
+        echo 'linker = "x86_64-linux-musl-gcc"' >> ~/.cargo/config.toml

@@ -1,5 +1,9 @@
 # mail-server-dev
 
+![Build Status](https://img.shields.io/github/actions/workflow/status/netoun/mail-server-dev/ci.yml?branch=main&style=flat-square)
+![Docker Image](https://img.shields.io/docker/v/netoun/mail-server-dev?style=flat-square)
+![Docker Pulls](https://img.shields.io/docker/pulls/netoun/mail-server-dev?style=flat-square)
+
 A modern, developer-friendly local mail server and inbox for testing and development.
 
 ---
@@ -23,6 +27,22 @@ A modern, developer-friendly local mail server and inbox for testing and develop
 ## Getting Started
 
 ### With Docker (recommended)
+
+#### Utiliser l'image Docker pré-construite
+
+```bash
+docker pull netoun/mail-server-dev:latest
+docker run -p 1080:1080 -p 1025:1025 netoun/mail-server-dev
+```
+
+#### Construire l'image localement
+
+```bash
+docker build -t mail-server-dev .
+docker run -p 1080:1080 -p 1025:1025 mail-server-dev
+```
+
+Ou avec docker-compose :
 
 ```bash
 docker-compose up --build
@@ -67,6 +87,19 @@ swaks --to test@example.com --server localhost:1025
 PRs and issues welcome!
 
 ---
+
+## Docker Image
+
+L'image Docker est disponible sur :
+
+- **Docker Hub**: `netoun/mail-server-dev:latest`
+- **GitHub Container Registry**: `ghcr.io/netoun/mail-server-dev:latest`
+
+### Tags disponibles
+
+- `latest` - Dernière version
+- `main` - Version de la branche main
+- `v1.x.x` - Versions taguées
 
 ## License
 MIT

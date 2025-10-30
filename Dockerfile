@@ -1,19 +1,25 @@
 # ---- Build frontend ----
-FROM oven/bun:1.0 as web-builder
+FROM oven/bun:1.0 AS web-builder
 WORKDIR /web
+COPY bun.lock ./packages/web/
 COPY packages/web/ .
-RUN bun install && bun run build
+RUN bun install
+RUN bun run build
 
 # ---- Build backend ----
-FROM alpine:3.19 as builder
+FROM alpine:3.19 AS builder
 WORKDIR /app
-RUN apk add --no-cache build-base openssl-dev sqlite-dev curl && \
+RUN apk add --no-cache build-base openssl-dev sqlite-dev curl musl-dev gcc && \
     curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly --profile minimal && \
     . "$HOME/.cargo/env" && \
     rustup target add x86_64-unknown-linux-musl
 ENV PATH="/root/.cargo/bin:${PATH}"
 COPY packages/server/ .
-RUN cargo build --release --target x86_64-unknown-linux-musl && \
+RUN mkdir -p /root/.cargo && \
+    echo '[target.x86_64-unknown-linux-musl]' >> /root/.cargo/config.toml && \
+    echo 'linker = "gcc"' >> /root/.cargo/config.toml && \
+    CC_x86_64_unknown_linux_musl=gcc \
+    cargo build --release --target x86_64-unknown-linux-musl && \
     strip target/x86_64-unknown-linux-musl/release/server
 
 # ---- Runtime stage ultra-minimal ----
