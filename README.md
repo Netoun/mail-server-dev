@@ -104,3 +104,8 @@ The Docker image is available on:
 ## License
 
 MIT
+
+## Notes
+
+> [!NOTE]  
+> This project was build with support from AI-assisted coding tools for write codes, optimization and documentation purposes.
