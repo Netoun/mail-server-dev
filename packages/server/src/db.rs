@@ -1,6 +1,6 @@
 use rusqlite::Connection;
 
-/// Initialise la base de données avec les tables nécessaires
+/// Initialize the database with the necessary tables
 pub fn init_db(db_path: &str) -> Result<Connection, rusqlite::Error> {
     let conn = Connection::open(db_path)?;
 

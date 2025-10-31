@@ -24,25 +24,25 @@ interface EmailConfig {
 
 const emailConfigs: Record<string, EmailConfig> = {
   stripe: {
-    subject: "Bienvenue sur Stripe!",
+    subject: "Welcome to Stripe!",
     from: "noreply@stripe.com",
     component: <StripeWelcomeEmail />,
-    text: "Merci d'avoir soumis vos informations de compte. Vous êtes maintenant prêt à effectuer des transactions en direct avec Stripe!",
+    text: "Thank you for submitting your account information. You're now ready to process live transactions with Stripe!",
   },
   plaid: {
-    subject: "Vérifiez votre identité",
+    subject: "Verify your identity",
     from: "noreply@plaid.com",
     component: <PlaidVerifyIdentityEmail validationCode="123456" />,
-    text: "Utilisez ce code pour vérifier votre identité: 123456",
+    text: "Use this code to verify your identity: 123456",
   },
   notion: {
-    subject: "Votre lien de connexion magique",
+    subject: "Your magic link",
     from: "noreply@notion.so",
     component: <NotionMagicLinkEmail loginCode="123456" />,
-    text: "Votre code de connexion: 123456",
+    text: "Your login code: 123456",
   },
   vercel: {
-    subject: "Vous avez été invité à rejoindre l'équipe",
+    subject: "You've been invited to join the team",
     from: "noreply@vercel.com",
     component: <VercelInviteUserEmail 
       username="John Doe"
@@ -55,7 +55,7 @@ const emailConfigs: Record<string, EmailConfig> = {
       inviteFromIp="192.168.1.1"
       inviteFromLocation="Paris, France"
     />,
-    text: "Vous avez été invité à rejoindre l'équipe Acme Inc sur Vercel.",
+    text: "You've been invited to join the Acme Inc team on Vercel.",
   },
 };
 
@@ -63,16 +63,16 @@ async function sendEmail(type: string) {
   const config = emailConfigs[type];
   
   if (!config) {
-    console.error(`❌ Type d'email inconnu: ${type}`);
-    console.log('Types disponibles:', Object.keys(emailConfigs).join(', '));
+    console.error(`❌ Unknown email type: ${type}`);
+    console.log('Available types:', Object.keys(emailConfigs).join(', '));
     process.exit(1);
   }
 
   try {
-    console.log(`📧 Génération du HTML pour ${type}...`);
+    console.log(`📧 Generating HTML for ${type}...`);
     const html = await render(config.component);
 
-    console.log(`📤 Envoi de l'email "${config.subject}"...`);
+    console.log(`📤 Sending email "${config.subject}"...`);
     const info = await transporter.sendMail({
       from: config.from,
       to: 'recipient@example.com',
@@ -81,11 +81,11 @@ async function sendEmail(type: string) {
       text: config.text || config.subject,
     });
 
-    console.log('✅ Email envoyé avec succès!');
+    console.log('✅ Email sent successfully!');
     console.log(`   Message ID: ${info.messageId}`);
-    console.log(`   Vérifiez l'interface web sur http://localhost:1080`);
+    console.log(`   Check the web interface at http://localhost:1080`);
   } catch (error) {
-    console.error('❌ Erreur lors de l\'envoi:', error);
+    console.error('❌ Error sending email:', error);
     process.exit(1);
   }
 }
@@ -95,7 +95,7 @@ const emailType = process.argv[2];
 
 if (!emailType) {
   console.error('❌ Usage: bun run send:<type>');
-  console.log('Types disponibles:');
+  console.log('Available types:');
   Object.keys(emailConfigs).forEach(type => {
     console.log(`  - ${type}: ${emailConfigs[type].subject}`);
   });

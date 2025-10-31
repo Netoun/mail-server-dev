@@ -48,7 +48,7 @@ mod tests {
         let (_temp_dir, db_path) = setup_test_db();
         let conn = Connection::open(&db_path).unwrap();
 
-        // Vérifier que les tables existent
+        // Verify that tables exist
         let mut stmt = conn
             .prepare("SELECT name FROM sqlite_master WHERE type='table' AND name IN ('mails', 'attachments')")
             .unwrap();
@@ -143,7 +143,7 @@ mod tests {
         conn.execute("DELETE FROM mails WHERE id = ?", [mail_id])
             .unwrap();
 
-        // Vérifier que le mail a été supprimé
+        // Verify that the mail was deleted
         let count: i64 = conn
             .query_row("SELECT COUNT(*) FROM mails WHERE id = ?", [mail_id], |row| {
                 row.get(0)
@@ -151,7 +151,7 @@ mod tests {
             .unwrap();
         assert_eq!(count, 0);
 
-        // Vérifier que l'attachment a été supprimé en cascade
+        // Verify that the attachment was deleted in cascade
         let attachment_count: i64 = conn
             .query_row(
                 "SELECT COUNT(*) FROM attachments WHERE mail_id = ?",

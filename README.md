@@ -28,21 +28,21 @@ A modern, developer-friendly local mail server and inbox for testing and develop
 
 ### With Docker (recommended)
 
-#### Utiliser l'image Docker pré-construite
+#### Using the pre-built Docker image
 
 ```bash
 docker pull netoun/mail-server-dev:latest
 docker run -p 1080:1080 -p 1025:1025 netoun/mail-server-dev
 ```
 
-#### Construire l'image localement
+#### Building the image locally
 
 ```bash
 docker build -t mail-server-dev .
 docker run -p 1080:1080 -p 1025:1025 mail-server-dev
 ```
 
-Ou avec docker-compose :
+Or with docker-compose:
 
 ```bash
 docker-compose up --build
@@ -90,16 +90,17 @@ PRs and issues welcome!
 
 ## Docker Image
 
-L'image Docker est disponible sur :
+The Docker image is available on:
 
 - **Docker Hub**: `netoun/mail-server-dev:latest`
 - **GitHub Container Registry**: `ghcr.io/netoun/mail-server-dev:latest`
 
-### Tags disponibles
+### Available tags
 
-- `latest` - Dernière version
-- `main` - Version de la branche main
-- `v1.x.x` - Versions taguées
+- `latest` - Latest version
+- `main` - Main branch version
+- `v1.x.x` - Tagged versions
 
 ## License
+
 MIT

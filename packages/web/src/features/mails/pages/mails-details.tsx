@@ -45,17 +45,17 @@ export const MailDetails = ({ id }: MailDetailsProps) => {
     if (isLoading)
         return (
             <div class={mailDetailsContainer} style={{ textAlign: "center", padding: "2em" }}>
-                Chargement…
+                Loading…
             </div>
         );
     if (error || !data)
         return (
             <div class={mailDetailsContainer} style={{ textAlign: "center", padding: "2em" }}>
-                Erreur lors du chargement du mail.
+                Error loading email.
             </div>
         );
 
-    // Extraction du nom et de l'email
+    // Extract name and email
     const fromMatch = data.from_address.match(/^(.*)<(.*)>$/);
     const fromName = fromMatch ? fromMatch[1].trim() : data.from_address;
     const fromEmail = fromMatch ? fromMatch[2].trim() : data.from_address;

@@ -20,7 +20,7 @@ export function Sidebar() {
     const closeSidebar = useSidebarStore(s => s.closeSidebar);
 
     useEffect(() => {
-        // Demande la permission pour les notifications système
+        // Request permission for system notifications
         if (window.Notification && Notification.permission === 'default') {
             Notification.requestPermission();
         }
@@ -34,10 +34,10 @@ export function Sidebar() {
                 const mail = JSON.parse(event.data);
                 if (mail && mail.is_read === false) {
                     setNotif(true);
-                    // Notification système
+                    // System notification
                     if (window.Notification && Notification.permission === 'granted') {
-                        new Notification('📧 Nouveau mail', {
-                            body: mail.subject || 'Vous avez reçu un nouveau mail',
+                        new Notification('📧 New email', {
+                            body: mail.subject || 'You have received a new email',
                             icon: '/vite.svg',
                         });
                     }
@@ -47,7 +47,7 @@ export function Sidebar() {
         return () => es.close();
     }, [queryClient]);
 
-    // Met à jour le titre de la page avec le nombre de mails non lus
+    // Update page title with unread email count
     useEffect(() => {
         if (unreadCount > 0) {
             document.title = `(${unreadCount}) Fastmail SMTP Dev`;
@@ -72,7 +72,7 @@ export function Sidebar() {
                 <div class={sidebarHeader}>
                     <h1 class={sidebarHeaderTitle}>Inbox {unreadCount > 0 && <span class={sidebarHeaderUnreadCount}>{unreadCount}</span>}</h1>
                     <button
-                        aria-label="Fermer le menu"
+                        aria-label="Close menu"
                         onClick={closeSidebar}
                         class={sidebarClose}
                     >

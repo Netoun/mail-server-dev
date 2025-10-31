@@ -13,7 +13,7 @@ export function ThemeDropdown({ theme, setTheme, resolvedTheme }: { theme: strin
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Fermer le dropdown si clic en dehors
+    // Close dropdown if click outside
     useEffect(() => {
         function handleClick(e: MouseEvent) {
             if (open && dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -44,7 +44,7 @@ export function ThemeDropdown({ theme, setTheme, resolvedTheme }: { theme: strin
     return (
         <div style={{ position: 'relative' }}>
             <button
-                aria-label="Changer le thème"
+                aria-label="Change theme"
                 class={themeDropdownButton} 
                 onClick={() => setOpen(o => !o)}
                 onMouseOver={e => (e.currentTarget.style.background = 'var(--sidebar-accent)')}
@@ -57,15 +57,15 @@ export function ThemeDropdown({ theme, setTheme, resolvedTheme }: { theme: strin
             {open && (
                 <div ref={dropdownRef} className={themeDropdown}>
                     <button className={themeDropdownButton} data-active={theme === 'system'} onClick={() => { setTheme('system'); setOpen(false); }}>
-                        Système
+                        System
                         {theme === 'system' && <CheckIcon />}
                     </button>
                     <button className={themeDropdownButton} data-active={theme === 'light'} onClick={() => { setTheme('light'); setOpen(false); }}>
-                        Clair
+                        Light
                         {theme === 'light' && <CheckIcon />}
                     </button>
                     <button className={themeDropdownButton} data-active={theme === 'dark'} onClick={() => { setTheme('dark'); setOpen(false); }}>
-                        Sombre
+                        Dark
                         {theme === 'dark' && <CheckIcon />}
                     </button>
                 </div>

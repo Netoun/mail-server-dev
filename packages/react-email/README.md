@@ -1,6 +1,6 @@
 # React Email Templates
 
-Templates d'emails utilisant React Email pour tester le serveur SMTP local.
+Email templates using React Email to test the local SMTP server.
 
 ## Installation
 
@@ -8,50 +8,50 @@ Templates d'emails utilisant React Email pour tester le serveur SMTP local.
 bun install
 ```
 
-## Utilisation
+## Usage
 
-### Prévisualiser les emails
+### Preview emails
 
 ```sh
 bun run dev
 ```
 
-Ouvre [localhost:3000](http://localhost:3000) pour prévisualiser les templates dans votre navigateur.
+Opens [localhost:3000](http://localhost:3000) to preview templates in your browser.
 
-### Exporter les emails (générer HTML)
+### Export emails (generate HTML)
 
 ```sh
 bun run export
 ```
 
-Génère les fichiers HTML statiques.
+Generates static HTML files.
 
-### Envoyer des emails via SMTP local
+### Send emails via local SMTP
 
-Assurez-vous que le serveur SMTP est démarré (`docker-compose up`), puis :
+Make sure the SMTP server is running (`docker-compose up`), then:
 
 ```sh
-# Envoyer un email Stripe
+# Send a Stripe email
 bun run send:stripe
 
-# Envoyer un email Plaid (vérification d'identité)
+# Send a Plaid email (identity verification)
 bun run send:plaid
 
-# Envoyer un email Notion (magic link)
+# Send a Notion email (magic link)
 bun run send:notion
 
-# Envoyer un email Vercel (invitation équipe)
+# Send a Vercel email (team invitation)
 bun run send:vercel
 ```
 
-Les emails seront envoyés au serveur SMTP local (port 1025) et apparaîtront dans l'interface web sur [http://localhost:1080](http://localhost:1080).
+Emails will be sent to the local SMTP server (port 1025) and will appear in the web interface at [http://localhost:1080](http://localhost:1080).
 
-## Templates disponibles
+## Available templates
 
-- **Stripe Welcome** - Email de bienvenue Stripe
-- **Plaid Verify Identity** - Email de vérification d'identité Plaid
-- **Notion Magic Link** - Lien de connexion magique Notion
-- **Vercel Invite User** - Invitation à rejoindre une équipe Vercel
+- **Stripe Welcome** - Stripe welcome email
+- **Plaid Verify Identity** - Plaid identity verification email
+- **Notion Magic Link** - Notion magic link email
+- **Vercel Invite User** - Vercel team invitation email
 
 ## License
 

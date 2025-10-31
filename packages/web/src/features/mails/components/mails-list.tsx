@@ -34,8 +34,8 @@ export const MailsList = ({ data, isLoading, error }: MailsListProps) => {
         };
     }, []);
 
-    if (isLoading) return <div style={{textAlign: 'center', padding: '2em'}}>Chargement…</div>;
-    if (error) return <div style={{textAlign: 'center', padding: '2em'}}>Erreur lors du chargement des mails.</div>;
+    if (isLoading) return <div style={{textAlign: 'center', padding: '2em'}}>Loading…</div>;
+    if (error) return <div style={{textAlign: 'center', padding: '2em'}}>Error loading emails.</div>;
 
     return (
         <ul class={mailsListStyles}>
